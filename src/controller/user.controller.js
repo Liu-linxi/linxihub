@@ -1,13 +1,16 @@
 const userService = require("../service/user.service");
 
 class UserController {
-  create(ctx, next) {
+  async create(ctx, next) {
+    // 拿到传参的数据
     const user = ctx.request.body;
-    // 拿到传参的数据存储数据库
-    console.log(user)
     // 保存到数据库
-    userService.create(user);
-    ctx.body = "创建成功";
+    const result = await userService.create(user);
+    console.log("🚀 ~ UserController ~ create ~ result:", result)
+    ctx.body = {
+      message: "用户创建成功",
+      data: result
+    };
   }
 }
 
