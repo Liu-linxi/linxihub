@@ -6,7 +6,6 @@ class UserController {
     const user = ctx.request.body;
     // 保存到数据库
     const result = await userService.create(user);
-    console.log("🚀 ~ UserController ~ create ~ result:", result)
     ctx.body = {
       message: "用户创建成功",
       data: result
