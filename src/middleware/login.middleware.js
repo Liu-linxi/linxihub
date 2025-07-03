@@ -1,7 +1,9 @@
-const { NAME_OR_PASSWORD_IS_REQUIRED, USER_DOES_NOT_EXIST, PASSWORD_IS_INCORRECT } = require("../config/error");
+const jwt = require('jsonwebtoken');
+
+const { NAME_OR_PASSWORD_IS_REQUIRED, USER_DOES_NOT_EXIST, PASSWORD_IS_INCORRECT, INVALID_TOKEN } = require("../config/error");
 const userService = require("../service/user.service");
 const md5password = require("../utils/md5-password");
-
+const { ALGORITHM, PUBLIC_KEY } = require('../config/screct');
 // 中间件验证注册用户
 const verifyLogin = async (ctx, next) => {
   const { name, password } = ctx.request.body;
@@ -26,4 +28,21 @@ const verifyLogin = async (ctx, next) => {
   await next();
 }
 
-module.exports = { verifyLogin, }
+const verifyAuth = async (ctx, next) => {
+  // 获取token
+  const authorization = ctx.headers.authorization;
+  const token = authorization.replace('Bearer ', '');
+  // 验证token
+  try {
+    const result = jwt.verify(token, PUBLIC_KEY, { algorithms: [ALGORITHM] });
+    // 将token信息保留在ctx.user
+    ctx.user = result;
+    await next();
+
+  } catch (error) {
+    ctx.app.emit("error", INVALID_TOKEN, ctx);
+  }
+
+}
+
+module.exports = { verifyLogin, verifyAuth }
