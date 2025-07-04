@@ -10,8 +10,20 @@ class MomentController {
     const result = await momentService.create({ content, id });
 
     ctx.body = {
-      code: 200,
+      code: 0,
       message: "创建动态发布成功",
+      data: result
+    };
+  }
+
+  async list(ctx, next) {
+    const { offset, size } = ctx.query;
+
+    const result = await momentService.getMomentList(offset, size);
+
+    ctx.body = {
+      code: 0,
+      message: "获取动态列表成功",
       data: result
     };
   }

@@ -6,6 +6,12 @@ class MomentService {
     const [result] = await connection.execute(statement, [moment.content, moment.id])
     return result
   }
+
+  async getMomentList(offset = 0, size = 10) {
+    const statement = `SELECT * FROM moment LIMIT ?, ?`
+    const [result] = await connection.execute(statement, [String(offset), String(size)])
+    return result
+  }
 }
 
 module.exports = new MomentService()
