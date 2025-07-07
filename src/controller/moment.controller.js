@@ -27,6 +27,16 @@ class MomentController {
       data: result
     };
   }
+  async detail(ctx, next) {
+    const { momentId } = ctx.params;
+    const result = await momentService.getMomentById(momentId);
+
+    ctx.body = {
+      code: 0,
+      message: "获取动态详情成功",
+      data: result
+    };
+  }
 }
 
 module.exports = new MomentController();

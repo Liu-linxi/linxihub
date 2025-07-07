@@ -19,6 +19,17 @@ class MomentService {
     const [result] = await connection.execute(statement, [String(offset), String(size)])
     return result
   }
+  async getMomentById(id) {
+    const statement = `SELECT 
+        m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,
+        JSON_OBJECT('id',u.id,'name',u.name,'createTime',u.createAt,'updateTime',u.updateAt) user
+      FROM moment m
+      LEFT JOIN user u ON u.id = m.user_id
+      WHERE m.id = ?;
+    `
+    const [result] = await connection.execute(statement, [id])
+    return result
+  }
 }
 
 module.exports = new MomentService()
