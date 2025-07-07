@@ -8,13 +8,13 @@ const verifyPermission = async (ctx, next) => {
   const { id } = ctx.user;
   const keyName = Object.keys(ctx.params)[0];
   console.log("🚀 ~ verifyPermission ~ ctx.params:", ctx.params)
-  const resouceId = ctx.params[keyName];
-  const resouceName = keyName.replace('Id', '');
-  const isExist = await permissionService.findResouce(resouceName, resouceId);
+  const resourceId = ctx.params[keyName];
+  const resourceName = keyName.replace('Id', '');
+  const isExist = await permissionService.findResource(resourceName, resourceId);
   if (!isExist) {
     return ctx.app.emit('error', RESOURCE_NOT_FOUND, ctx)
   }
-  const isPermission = await permissionService.checkResouce(resouceName, resouceId, id)
+  const isPermission = await permissionService.checkResource(resourceName, resourceId, id)
   if (!isPermission) {
     return ctx.app.emit('error', OPERATION_NOT_ALLOWED, ctx)
   }
@@ -22,7 +22,7 @@ const verifyPermission = async (ctx, next) => {
 }
 
 // 如果这里使用动态的操作的话那么传参数"momentId"这里名字必须严格规范注意操作标明驼峰Id
-const verifyResouce = function (resourceName) {
+const verifyResource = function (resourceName) {
   return async function (ctx, next) {
     try {
       // 查找以 resourceName 开头、以 Id 结尾的字段，如 momentId、commentId
@@ -37,7 +37,7 @@ const verifyResouce = function (resourceName) {
       const resourceId = ctx.request.body[keyName];
 
       // 调用 service 层检查资源是否存在
-      const isExist = await permissionService.findResouce(resourceName, resourceId);
+      const isExist = await permissionService.findResource(resourceName, resourceId);
       if (!isExist) {
         return ctx.app.emit('error', RESOURCE_NOT_FOUND, ctx);
       }
@@ -53,5 +53,5 @@ const verifyResouce = function (resourceName) {
 
 module.exports = {
   verifyPermission,
-  verifyResouce
+  verifyResource
 }

@@ -1,15 +1,15 @@
 const connection = require("../app/database")
 
 class PermissionService {
-  async findResouce(resouceName, resouceId) {
-    const statement = `SELECT * FROM ${resouceName} WHERE id = ?`;
-    const [result] = await connection.execute(statement, [resouceId]);
+  async findResource(resourceName, resourceId) {
+    const statement = `SELECT * FROM ${resourceName} WHERE id = ?`;
+    const [result] = await connection.execute(statement, [resourceId]);
     return !!result.length;
   }
 
-  async checkResouce(resouceName, resouceId, userId) {
-    const statement = `SELECT * FROM ${resouceName} WHERE id = ? AND user_id = ?`;
-    const [result] = await connection.execute(statement, [resouceId, userId]);
+  async checkResource(resourceName, resourceId, userId) {
+    const statement = `SELECT * FROM ${resourceName} WHERE id = ? AND user_id = ?`;
+    const [result] = await connection.execute(statement, [resourceId, userId]);
     return !!result.length;
   }
 }
