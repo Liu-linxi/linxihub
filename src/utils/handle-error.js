@@ -1,5 +1,13 @@
 const app = require("../app");
-const { NAME_OR_PASSWORD_IS_REQUIRED, USER_ALREADY_EXISTS, USER_DOES_NOT_EXIST, PASSWORD_IS_INCORRECT, INVALID_TOKEN, INVALID_PASSWORD } = require("../config/error");
+const {
+  NAME_OR_PASSWORD_IS_REQUIRED,
+  USER_ALREADY_EXISTS,
+  USER_DOES_NOT_EXIST,
+  PASSWORD_IS_INCORRECT,
+  INVALID_TOKEN,
+  INVALID_PASSWORD,
+  OPERATION_NOT_ALLOWED
+} = require("../config/error");
 
 app.on("error", (err, ctx) => {
   let code = 0;
@@ -30,6 +38,11 @@ app.on("error", (err, ctx) => {
       code = -1006;
       message = "用户名或者密码错误";
       break;
+    case OPERATION_NOT_ALLOWED:
+      code = -2001;
+      message = "没有操作权限";
+      break;
   }
+
   ctx.body = { code, message };
 });

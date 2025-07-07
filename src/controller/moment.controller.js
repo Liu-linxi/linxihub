@@ -37,6 +37,17 @@ class MomentController {
       data: result
     };
   }
+  async update(ctx, next) {
+    const { momentId } = ctx.params;
+    const { content } = ctx.request.body;
+    const result = await momentService.update(momentId, content);
+
+    ctx.body = {
+      code: 0,
+      message: "更新动态成功",
+      data: result
+    };
+  }
 }
 
 module.exports = new MomentController();
