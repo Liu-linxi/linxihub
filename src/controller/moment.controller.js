@@ -48,6 +48,16 @@ class MomentController {
       data: result
     };
   }
+  async remove(ctx, next) {
+    const { momentId } = ctx.params;
+    const result = await momentService.remove(momentId);
+
+    ctx.body = {
+      code: 0,
+      message: "删除动态成功",
+      data: result
+    };
+  }
 }
 
 module.exports = new MomentController();
