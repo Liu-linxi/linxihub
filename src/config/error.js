@@ -7,6 +7,7 @@ const PASSWORD_IS_INCORRECT = 'PASSWORD_IS_INCORRECT';                      // �
 const INVALID_TOKEN = 'INVALID_TOKEN';                                      // 无效的token
 const INVALID_PASSWORD = 'INVALID_PASSWORD';                                // 用户名或者密码错误
 const OPERATION_NOT_ALLOWED = 'OPERATION_NOT_ALLOWED';                      // 不允许的操作
+const RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND'; // 数据资源不存在
 
 module.exports = {
   NAME_OR_PASSWORD_IS_REQUIRED,
@@ -15,5 +16,6 @@ module.exports = {
   PASSWORD_IS_INCORRECT,
   INVALID_TOKEN,
   INVALID_PASSWORD,
-  OPERATION_NOT_ALLOWED
+  OPERATION_NOT_ALLOWED,
+  RESOURCE_NOT_FOUND
 };

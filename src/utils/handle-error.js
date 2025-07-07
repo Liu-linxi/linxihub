@@ -6,7 +6,8 @@ const {
   PASSWORD_IS_INCORRECT,
   INVALID_TOKEN,
   INVALID_PASSWORD,
-  OPERATION_NOT_ALLOWED
+  OPERATION_NOT_ALLOWED,
+  RESOURCE_NOT_FOUND
 } = require("../config/error");
 
 app.on("error", (err, ctx) => {
@@ -41,6 +42,10 @@ app.on("error", (err, ctx) => {
     case OPERATION_NOT_ALLOWED:
       code = -2001;
       message = "没有操作权限";
+      break;
+    case RESOURCE_NOT_FOUND:
+      code = -2002;
+      message = "数据资源不存在";
       break;
   }
 
