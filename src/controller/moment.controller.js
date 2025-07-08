@@ -58,13 +58,27 @@ class MomentController {
       data: result
     };
   }
-  async createLabel(ctx, next) {
-    const { momentId, labelId } = ctx.request.body
-    const result = "await momentService.createLabel(momentId, labelId)"
-    ctx.body = {
-      code: 0,
-      message: "为动态添加标签成功",
-      data: result
+  async createLabels(ctx, next) {
+    const { labels } = ctx
+    const { momentId } = ctx.params
+    // 将momentId和labelId进行关联添加到moment_label表中
+    try {
+      for (let label of labels) {
+        const isExist = await momentService.hasLabel(momentId, label.id)
+        if (!isExist) {
+          // 不存在moment_id和label_id的关联关系，则进行添加
+          const result = await momentService.addLabel(momentId, label.id)
+        }
+      }
+      ctx.body = {
+        code: 0,
+        message: "为动态添加标签成功~",
+      }
+    } catch (error) {
+      ctx.body = {
+        code: -3001,
+        message: "为动态添加标签失败,请检测数据是否有问题~",
+      }
     }
   }
 }
