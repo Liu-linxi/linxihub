@@ -58,6 +58,15 @@ class MomentController {
       data: result
     };
   }
+  async createLabel(ctx, next) {
+    const { momentId, labelId } = ctx.request.body
+    const result = "await momentService.createLabel(momentId, labelId)"
+    ctx.body = {
+      code: 0,
+      message: "为动态添加标签成功",
+      data: result
+    }
+  }
 }
 
 module.exports = new MomentController();
