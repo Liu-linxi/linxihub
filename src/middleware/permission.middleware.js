@@ -22,33 +22,23 @@ const verifyPermission = async (ctx, next) => {
 }
 
 // 如果这里使用动态的操作的话那么传参数"momentId"这里名字必须严格规范注意操作标明驼峰Id
-const verifyResource = function (resourceName) {
+const verifyResource = function (...resourceNames) {
   return async function (ctx, next) {
-    try {
-      // 查找以 resourceName 开头、以 Id 结尾的字段，如 momentId、commentId
-      const keyName = Object.keys(ctx.request.body).find(key =>
-        key.startsWith(resourceName) && key.endsWith('Id')
+    for (const resourceName of resourceNames) {
+      const keyName = Object.keys(ctx.request.body).find(
+        key => key.startsWith(resourceName) && key.endsWith('Id')
       );
-
       if (!keyName) {
         return ctx.app.emit('error', RESOURCE_NOT_FOUND, ctx);
       }
-
       const resourceId = ctx.request.body[keyName];
-
-      // 调用 service 层检查资源是否存在
       const isExist = await permissionService.findResource(resourceName, resourceId);
       if (!isExist) {
         return ctx.app.emit('error', RESOURCE_NOT_FOUND, ctx);
       }
-
-      await next();
-    } catch (error) {
-      console.error('verifyResource error:', error);
-      return ctx.app.emit('error', RESOURCE_NOT_FOUND, ctx);
     }
-  }
-
+    await next();
+  };
 }
 
 module.exports = {
