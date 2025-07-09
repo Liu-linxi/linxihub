@@ -11,11 +11,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@koa/multer": "^4.0.0",
     "@koa/router": "^13.1.0",
     "dotenv": "^17.0.0",
     "jsonwebtoken": "^9.0.2",
     "koa": "^3.0.0",
     "koa-bodyparser": "^4.4.1",
+    "multer": "^2.0.1",
     "mysql2": "^3.14.1"
   }
 }
